@@ -15,6 +15,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { FcGoogle } from "react-icons/fc";
+import { useGoogleLogin } from "@react-oauth/google";
 
 
 function CreateTrip() {
@@ -33,6 +34,12 @@ function CreateTrip() {
   useEffect(() => {
     console.log(formData);
   }, [formData]);
+
+  const login = useGoogleLogin({
+    onSuccess:(codeResp)=>console.log(codeResp),
+    onError:(error)=>console.log(error)
+    
+  })
 
   const OnGenerateTrip=async()=>{
     const user=localStorage.getItem('user');
@@ -142,7 +149,7 @@ function CreateTrip() {
             <DialogDescription>
               <img src="/logo.svg" />
               <h2 className="font-bold text-lg mt-8">Sign in with google</h2>
-              <Button className="w-full mt-5 flex gap-4 items-center"><FcGoogle className='h-8 w-8'/>Sign In With Google</Button>
+              <Button onClick={login} className="w-full mt-5 flex gap-4 items-center"><FcGoogle style={{ width: "30px", height: "30px" }} />Sign In With Google</Button>
             </DialogDescription>
           </DialogHeader>
         </DialogContent>
