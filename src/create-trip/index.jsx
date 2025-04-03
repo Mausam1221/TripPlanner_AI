@@ -23,12 +23,14 @@ import { FcGoogle } from "react-icons/fc";
 import { useGoogleLogin } from "@react-oauth/google";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "@/service/firebaseConfig";
+import { useNavigate } from "react-router-dom";
 
 function CreateTrip() {
   const [place, setPlace] = useState();
   const [formData, setFormData] = useState([]);
   const [openDailog, setOpenDailog] = useState(false);
   const [loading,setLoading]=useState(false);
+  const navigate=useNavigate();
   const handleInputChange = (name, value) => {
     // if (name == "noOfDays" && value > 5) {
     //   console.log("Please enter Trip Days less than 5");
@@ -96,11 +98,14 @@ function CreateTrip() {
       
       const tripData = {
         userSelection: formData,
-        tripData: TripData,
+        tripData: JSON.parse(TripData),
         userEmail: user.email,
         id: docId,
         createdAt: new Date().toISOString()
       };
+
+      setLoading(false);
+      navigate('/view-trip/'+docId)
       
       console.log('Trip data to save:', tripData);
       
